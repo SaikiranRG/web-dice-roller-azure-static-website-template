@@ -9,17 +9,19 @@
  *           and modified to meet requirements.
  */
 
+const API_BASE_URL = "https://server-dice-roller-node-js1-gubhdvgmadhca7a5.centralus-01.azurewebsites.net";
 // Function to simulate rolling two dice
-function rollDice() {
-  let die1 = Math.floor(Math.random() * 6) + 1;
-  let die2 = Math.floor(Math.random() * 6) + 1;
-  let total = die1 + die2;
+async function rollDice() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/dice/roll`);
+    const data = await response.json();
 
-  // Update fields
-  document.getElementById("die1").value = die1;
-  document.getElementById("die2").value = die2;
-  document.getElementById("total").value = total;
+    // Update fields
+    document.getElementById("die1").value = data.die1;
+    document.getElementById("die2").value = data.die2;
+    document.getElementById("total").value = data.total;
 
-  // Keep the roll button focused so Enter works
-  document.getElementById("rollBtn").focus();
+  } catch (error) {
+    alert("Error fetching dice roll: " + error.message);
+  }
 }
